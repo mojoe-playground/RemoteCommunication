@@ -6,7 +6,7 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Version>$(PackageVersion)</Version>
     <NuspecFile>RemoteCommunication.Embedded.nuspec</NuspecFile>
-    <NuspecProperties>version=$(Version)</NuspecProperties>
+    <NuspecProperties>version=$(Version);repositoryCommit=$(RepositoryCommit)</NuspecProperties>
   </PropertyGroup>
 
   <Target Name="ConcatenateFiles" BeforeTargets="PreBuildEvent">

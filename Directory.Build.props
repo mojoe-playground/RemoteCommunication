@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
     <PackageVersion>0.1.0</PackageVersion>
+    <RepositoryCommit></RepositoryCommit>
   </PropertyGroup>
 </Project>

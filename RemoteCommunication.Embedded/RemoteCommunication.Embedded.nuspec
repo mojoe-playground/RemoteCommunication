@@ -11,6 +11,8 @@
     <description>Embedded version of the RemoteCommunication NuGet package</description>
     <developmentDependency>true</developmentDependency>
     <version>$version$</version>
+    <projectUrl>https://github.com/mojoe-playground/RemoteCommunication</projectUrl>
+    <repository type="git" url="https://github.com/mojoe-playground/RemoteCommunication.git" branch="master" commit="$repositoryCommit$" />
     <dependencies>
       <group targetFramework=".NETStandard2.0" />
     </dependencies>

@@ -7,5 +7,9 @@
     <Authors>József Molnár</Authors>
     <Copyright>Copyright © József Molnár 2019</Copyright>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/mojoe-playground/RemoteCommunication</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mojoe-playground/RemoteCommunication.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>master</RepositoryBranch>
   </PropertyGroup>
 </Project>
