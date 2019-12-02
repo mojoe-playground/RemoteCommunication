@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.Build.NoTargets/1.0.88">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackage>true</IsPackage>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <Version>$(PackageVersion)</Version>
+    <NuspecFile>RemoteCommunication.Embedded.nuspec</NuspecFile>
+    <NuspecProperties>version=$(Version)</NuspecProperties>
+  </PropertyGroup>
+
+  <Target Name="ConcatenateFiles" BeforeTargets="PreBuildEvent">
+    <!-- List all the files you want to concatenate. -->
+    <ItemGroup>
+      <ConcatFiles Include="..\RemoteCommunication\**\*.cs" Exclude="..\RemoteCommunication\**\*AssemblyInfo.cs" />
+    </ItemGroup>
+
+    <!-- Read the contents of the files (preserving tabs/spaces). -->
+    <ItemGroup>
+      <FileContents Include="$([System.IO.File]::ReadAllText(%(ConcatFiles.Identity)).Replace(&quot;namespace RemoteCommunication&quot;, &quot;namespace EmbeddedRemoteCommunication&quot;).Replace(&quot; public class &quot;,&quot; internal class &quot;).Replace(&quot; public abstract class &quot;, &quot; internal abstract class &quot;).Replace(&quot; public static class &quot;, &quot; internal static class &quot;).Replace(&quot; public sealed class &quot;, &quot; internal sealed class &quot;).Replace(&quot; public interface &quot;, &quot; internal interface &quot;) )" />
+    </ItemGroup>
+
+    <!-- Write the result to a single file. -->
+    <WriteLinesToFile File="EmbeddedRemoteCommunication.cs.pp" Lines="@(FileContents)" Overwrite="true" />
+
+    <ItemGroup>
+      <Compile Include="EmbeddedRemoteCommunication.cs.pp" />
+    </ItemGroup>
+  </Target>
+</Project>

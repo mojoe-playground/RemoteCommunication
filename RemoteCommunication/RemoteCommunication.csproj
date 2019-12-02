@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>$(PackageVersion)</Version>
+    <Description>IPC between processes</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>József Molnár</Authors>
+    <Copyright>Copyright © József Molnár 2019</Copyright>
+    <PackageReleaseNotes></PackageReleaseNotes>
+  </PropertyGroup>
+</Project>

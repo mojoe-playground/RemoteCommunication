@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata minClientVersion="3.3">
+    <id>RemoteCommunication.Embedded</id>
+    <owners>József Molnár</owners>
+    <authors>József Molnár</authors>
+    <copyright>Copyright © József Molnár 2019</copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <description>Embedded version of the RemoteCommunication NuGet package</description>
+    <developmentDependency>true</developmentDependency>
+    <version>$version$</version>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+    <contentFiles>
+      <files include="cs\netstandard2.0\EmbeddedRemoteCommunication.cs.pp" buildAction="Compile" />
+    </contentFiles>
+  </metadata>
+  <files>
+    <file src="_._" target="lib\netstandard2.0" />
+    <file src="EmbeddedRemoteCommunication.cs.pp" target="contentFiles\cs\netstandard2.0" />
+  </files>
+</package>
