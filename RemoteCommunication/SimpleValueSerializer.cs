@@ -4,7 +4,6 @@
     using System.Collections;
     using System.IO;
     using System.Runtime.InteropServices;
-    using System.Text;
 
     public class SimpleValueSerializer : ISerializer
     {

@@ -11,13 +11,13 @@
 
         public object Deserialize(BinaryReader reader, SerializationManager manager) => new FaultException(reader.ReadString(), reader.ReadString(), reader.ReadString(), (Exception)manager.Deserialize(reader));
 
-        public void Serialize(object data, BinaryWriter writer, SerializationManager manaager)
+        public void Serialize(object data, BinaryWriter writer, SerializationManager manager)
         {
             var fault = (FaultException)data;
             writer.Write(fault.Type);
             writer.Write(fault.Message);
             writer.Write(fault.CallStack);
-            manaager.Serialize(fault.InnerException, writer);
+            manager.Serialize(fault.InnerException, writer);
         }
     }
 }

@@ -10,13 +10,13 @@ namespace RemoteCommunication.Tests
         [Fact]
         public async Task Hello()
         {
-            var helloReceived = false;
             await SetupCommunicators(async (tested, sender) =>
             {
-                tested.AddMessageHandler("Hello", () => helloReceived = true);
+                var tcs = new TaskCompletionSource<bool>();
+                tested.AddMessageHandler("Hello", () => tcs.SetResult(true));
                 await sender.SendMessage(tested.Address, "Hello");
-                Thread.Sleep(1000);
-                Assert.True(helloReceived);
+                Assert.Equal(tcs.Task, await Task.WhenAny(tcs.Task, Task.Delay(5000)));
+                Assert.True(tcs.Task.Result);
             });
         }
 
@@ -28,14 +28,15 @@ namespace RemoteCommunication.Tests
 
             await SetupCommunicators(async (tested, sender) =>
             {
-                tested.AddMessageHandler<int, string>("Parameters", (p1, p2) => { i = p1; st = p2; });
+                var tcs = new TaskCompletionSource<bool>(sender);
+                tested.AddMessageHandler<int, string>("Parameters", (p1, p2) => { i = p1; st = p2; tcs.SetResult(true); });
                 await sender.SendMessage(tested.Address, "Parameters", 42, "Test");
-                Thread.Sleep(1000);
+                Assert.Equal(tcs.Task, await Task.WhenAny(tcs.Task, Task.Delay(5000)));
                 Assert.Equal(42, i);
                 Assert.Equal("Test", st);
             });
         }
-        
+
         private async Task SetupCommunicators(Func<Communicator, Communicator, Task> test)
         {
             var id = Guid.NewGuid();
