@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -12,7 +12,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.*" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\RemoteCommunication\RemoteCommunication.csproj" />
     <ProjectReference Include="..\RemoteCommunication.Embedded\RemoteCommunication.Embedded.csproj" />
@@ -21,4 +21,11 @@
   <ItemGroup>
     <Compile Include="..\RemoteCommunication.Embedded\EmbeddedRemoteCommunication.cs.pp" Visible="false" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <PropertyGroup>
+      <DefineConstants Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">$(DefineConstants);NETFramework</DefineConstants>
+      <DefineConstants Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp'">$(DefineConstants);NETCoreApp</DefineConstants>
+    </PropertyGroup>
+  </Target>
 </Project>

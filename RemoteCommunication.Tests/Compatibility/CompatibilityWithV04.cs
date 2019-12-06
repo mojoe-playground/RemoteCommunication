@@ -1,18 +1,17 @@
-﻿#if NETCoreApp
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-using OldCommunicator = EmbeddedRemoteCommunication.v01.Communicator;
-using OldNetPipeChannel = EmbeddedRemoteCommunication.v01.NetPipeChannel;
-using OldSimpleValueSerializer = EmbeddedRemoteCommunication.v01.SimpleValueSerializer;
-using OldExtensions = EmbeddedRemoteCommunication.v01.CommunicatorExtensions;
-using OldFaultException = EmbeddedRemoteCommunication.v01.FaultException;
+using OldCommunicator = EmbeddedRemoteCommunication.v04.Communicator;
+using OldNetPipeChannel = EmbeddedRemoteCommunication.v04.NetPipeChannel;
+using OldSimpleValueSerializer = EmbeddedRemoteCommunication.v04.SimpleValueSerializer;
+using OldExtensions = EmbeddedRemoteCommunication.v04.CommunicatorExtensions;
+using OldFaultException = EmbeddedRemoteCommunication.v04.FaultException;
 
 namespace RemoteCommunication.Tests.Compatibility
 {
-    public class CompatibilityWithV01
+    public class CompatibilityWithV04
     {
         [Fact]
         public async Task OldServerNewClient()
@@ -78,4 +77,3 @@ namespace RemoteCommunication.Tests.Compatibility
         }
     }
 }
-#endif

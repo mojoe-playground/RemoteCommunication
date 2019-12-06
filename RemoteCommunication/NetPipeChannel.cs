@@ -36,7 +36,7 @@
             lock (_servers)
                 for (var i = 0; i < NumberOfServers; i++)
                 {
-                    var s = new NamedPipeServerStream(address, PipeDirection.In, NumberOfServers, PipeTransmissionMode.Byte, PipeOptions.None);
+                    var s = new NamedPipeServerStream(address, PipeDirection.In, NumberOfServers, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
                     s.BeginWaitForConnection(WaitForConnectionCallBack, i);
                     _servers.Add(s);
                 }
