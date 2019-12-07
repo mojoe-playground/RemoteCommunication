@@ -12,6 +12,7 @@
         private readonly Dictionary<string, (Func<object[], CancellationToken, Task<object>> handler, int paramsCount)> _requestHandlers = new Dictionary<string, (Func<object[], CancellationToken, Task<object>> handler, int paramsCount)>();
         private readonly Dictionary<Guid, RequestData> _activeRequests = new Dictionary<Guid, RequestData>();
         private readonly Dictionary<Guid, RequestData> _activeResponses = new Dictionary<Guid, RequestData>();
+        private TaskCompletionSource<bool> _shutdownSource;
 
         public Communicator(IChannel channel, string address, params ISerializer[] serializers) : base(channel, address)
         {
@@ -103,6 +104,27 @@
                 lock (_activeRequests)
                     _activeRequests.Remove(id);
             }
+        }
+
+        public async Task Shutdown()
+        {
+            TaskCompletionSource<bool> tcl;
+            lock (_activeResponses)
+            {
+                if (_activeResponses.Count == 0)
+                {
+                    Dispose();
+                    return;
+                }
+
+                if (_shutdownSource == null)
+                    _shutdownSource = new TaskCompletionSource<bool>();
+
+                tcl = _shutdownSource;
+            }
+
+            await tcl.Task.ConfigureAwait(false);
+            Dispose();
         }
 
         private protected override void ProcessEnvelope(Envelope envelope)
@@ -234,6 +256,12 @@
                     {
                         data.Cancellation.Dispose();
                         _activeResponses.Remove(req.RequestId);
+                    }
+
+                    if (_activeResponses.Count == 0 && _shutdownSource != null)
+                    {
+                        _shutdownSource.SetResult(true);
+                        Dispose();
                     }
                 }
             }
