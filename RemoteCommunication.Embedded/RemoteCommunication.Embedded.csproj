@@ -12,6 +12,7 @@
   <Target Name="ConcatenateFiles" BeforeTargets="PreBuildEvent">
     <!-- List all the files you want to concatenate. -->
     <ItemGroup>
+      <ConcatFiles Include="..\RemoteCommunication\**\EmbeddedHeader.txt" />
       <ConcatFiles Include="..\RemoteCommunication\**\*.cs" Exclude="..\RemoteCommunication\**\*AssemblyInfo.cs" />
     </ItemGroup>
 

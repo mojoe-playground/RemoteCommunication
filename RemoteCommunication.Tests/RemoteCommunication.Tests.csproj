@@ -4,6 +4,7 @@
     <TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
+    <DefineConstants>$(DefineConstants);RemoteCommunication_ProxySupport</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

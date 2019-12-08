@@ -11,5 +11,15 @@
     <RepositoryUrl>https://github.com/mojoe-playground/RemoteCommunication.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryBranch>master</RepositoryBranch>
+    <DefineConstants>$(DefineConstants);RemoteCommunication_ProxySupport</DefineConstants>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="EmbeddedHeader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EmbeddedHeader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Reflection.DispatchProxy" Version="4.*" />
+  </ItemGroup>
 </Project>

@@ -112,7 +112,7 @@
 
         private bool CheckShutdown(bool inShutdown = false)
         {
-            if ((inShutdown || _shutdownSource!=null) && _activeResponses.Count == 0 && _activeRequests.Count == 0)
+            if ((inShutdown || _shutdownSource != null) && _activeResponses.Count == 0 && _activeRequests.Count == 0)
             {
                 _shutdownSource?.TrySetResult(true);
                 Dispose();

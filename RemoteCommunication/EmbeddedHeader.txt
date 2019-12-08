@@ -1,0 +1,22 @@
+﻿/*
+Embedded Remote Communication
+
+https://github.com/mojoe-playground/RemoteCommunication
+https://www.nuget.org/packages/RemoteCommunication.Embedded/
+
+Copyright (c) 2019 József Molnár, all rights reserved
+Licensed under the MIT license
+https://github.com/mojoe-playground/RemoteCommunication/blob/master/LICENSE
+
+For proxy support
+- Add a reference to System.Reflection.DispatchProxy nuget package
+    <PackageReference Include="System.Reflection.DispatchProxy" Version="4.*" />
+- Define RemoteCommunication_ProxySupport conditional compilation symbol
+    <DefineConstants>$(DefineConstants);RemoteCommunication_ProxySupport</DefineConstants>
+
+If proxy support is enabled internal types will be visible for assemblies named ProxyBuilder 
+*/
+
+#if RemoteCommunication_ProxySupport
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("ProxyBuilder")]
+#endif
