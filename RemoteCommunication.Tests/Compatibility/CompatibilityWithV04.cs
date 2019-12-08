@@ -5,7 +5,7 @@ using Xunit;
 
 using OldCommunicator = EmbeddedRemoteCommunication.v04.Communicator;
 using OldNetPipeChannel = EmbeddedRemoteCommunication.v04.NetPipeChannel;
-using OldSimpleValueSerializer = EmbeddedRemoteCommunication.v04.SimpleValueSerializer;
+using OldBuiltInTypesSerializer = EmbeddedRemoteCommunication.v04.SimpleValueSerializer;
 using OldExtensions = EmbeddedRemoteCommunication.v04.CommunicatorExtensions;
 using OldFaultException = EmbeddedRemoteCommunication.v04.FaultException;
 
@@ -17,7 +17,7 @@ namespace RemoteCommunication.Tests.Compatibility
         public async Task OldServerNewClient()
         {
             var id = Guid.NewGuid();
-            using (var server = new OldCommunicator(new OldNetPipeChannel(), "Server" + id, new OldSimpleValueSerializer()))
+            using (var server = new OldCommunicator(new OldNetPipeChannel(), "Server" + id, new OldBuiltInTypesSerializer()))
             using (var client = new Communicator(new NetPipeChannel(), "Client" + id, new BuiltInTypesSerializer()))
             {
                 await server.Open();
@@ -49,7 +49,7 @@ namespace RemoteCommunication.Tests.Compatibility
         {
             var id = Guid.NewGuid();
             using (var server = new Communicator(new NetPipeChannel(), "Server" + id, new BuiltInTypesSerializer()))
-            using (var client = new OldCommunicator(new OldNetPipeChannel(), "Client" + id, new OldSimpleValueSerializer()))
+            using (var client = new OldCommunicator(new OldNetPipeChannel(), "Client" + id, new OldBuiltInTypesSerializer()))
             {
                 await server.Open();
                 await client.Open();
