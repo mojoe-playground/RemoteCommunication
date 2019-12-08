@@ -28,6 +28,6 @@ namespace RemoteCommunication.Tests
             }
         }
 
-        public static IEnumerable<object[]> VersionData => new List<object[]> { new[] { new Version() }, new[] { new Version(1, 2) }, new[] { new Version(6, 5, 4, 3) } };
+        public static IEnumerable<object[]> VersionData => new List<object[]> { new[] { new Version() }, new[] { new Version(1, 2) }, new[] { new Version(6, 5, 4, 3) }, new[] { new Version("4.7.2") } };
     }
 }
