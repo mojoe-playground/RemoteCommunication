@@ -99,7 +99,7 @@ namespace RemoteCommunication.Tests
             new object[]{ new uint?[] { 1600000, null, 32 } },
             new object[]{ (ulong)5 },
             new object[]{ new ulong[] { 8000000000, 698 } },
-            new object[]{ new long?[] { 5600000000, null, 32 } },
+            new object[]{ new ulong?[] { 5600000000, null, 32 } },
         };
     }
 }
