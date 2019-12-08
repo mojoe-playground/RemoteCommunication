@@ -12,6 +12,7 @@ namespace RemoteCommunication.Tests
             new[] { new List<string>{ "A", "B", "C" } },
             new[] { new Collection<string>{ "D", "E", "F" } },
             new[] { new ObservableCollection<string>{ "G", "H", "I" } },
+            new[] { new string[] { "K", "L", "M" } },
         };
 
         [Theory]
