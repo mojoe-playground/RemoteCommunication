@@ -13,6 +13,7 @@
         private readonly Dictionary<Guid, RequestData> _activeRequests = new Dictionary<Guid, RequestData>();
         private readonly Dictionary<Guid, RequestData> _activeResponses = new Dictionary<Guid, RequestData>();
         private TaskCompletionSource<bool> _shutdownSource;
+        private readonly object _activeRequestsResponsesLock = new object();
 
         public Communicator(IChannel channel, string address, params ISerializer[] serializers) : base(channel, address)
         {
@@ -62,7 +63,7 @@
             var req = new Request { RequestId = id, Verb = verb, Parameters = parameters };
             var data = new RequestData { Result = new TaskCompletionSource<object>(), Alive = true };
 
-            lock (_activeRequests)
+            lock (_activeRequestsResponsesLock)
                 _activeRequests[id] = data;
 
             try
@@ -101,21 +102,33 @@
             }
             finally
             {
-                lock (_activeRequests)
+                lock (_activeRequestsResponsesLock)
+                {
                     _activeRequests.Remove(id);
+                    CheckShutdown();
+                }
             }
+        }
+
+        private bool CheckShutdown(bool inShutdown = false)
+        {
+            if ((inShutdown || _shutdownSource!=null) && _activeResponses.Count == 0 && _activeRequests.Count == 0)
+            {
+                _shutdownSource?.TrySetResult(true);
+                Dispose();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task Shutdown()
         {
             TaskCompletionSource<bool> tcl;
-            lock (_activeResponses)
+            lock (_activeRequestsResponsesLock)
             {
-                if (_activeResponses.Count == 0)
-                {
-                    Dispose();
+                if (CheckShutdown(true))
                     return;
-                }
 
                 if (_shutdownSource == null)
                     _shutdownSource = new TaskCompletionSource<bool>();
@@ -206,7 +219,7 @@
         private void ProcessRespose(Response res)
         {
             RequestData data;
-            lock (_activeRequests)
+            lock (_activeRequestsResponsesLock)
                 if (!_activeRequests.TryGetValue(res.RequestId, out data))
                     return;
 
@@ -234,7 +247,7 @@
         private async Task ProcessRequest(Request req, string from)
         {
             RequestData data;
-            lock (_activeResponses)
+            lock (_activeRequestsResponsesLock)
                 if (!_activeResponses.TryGetValue(req.RequestId, out data))
                 {
                     data = new RequestData() { Cancellation = new CancellationTokenSource(), Counter = 1 };
@@ -249,7 +262,7 @@
             }
             finally
             {
-                lock (_activeResponses)
+                lock (_activeRequestsResponsesLock)
                 {
                     data.Counter--;
                     if (data.Counter == 0)
@@ -258,11 +271,7 @@
                         _activeResponses.Remove(req.RequestId);
                     }
 
-                    if (_activeResponses.Count == 0 && _shutdownSource != null)
-                    {
-                        _shutdownSource.SetResult(true);
-                        Dispose();
-                    }
+                    CheckShutdown();
                 }
             }
         }
