@@ -49,6 +49,27 @@ namespace RemoteCommunication.Tests
                 Assert.True(r.Bool);
             }
         }
+
+        [Fact]
+        public async Task ObjectInterface()
+        {
+            using (var tested = new Communicator(new NetPipeChannel(), "Tested" + Guid.NewGuid(), new ObjectSerializer<ITest, ConcreteTest>(), new SimpleValueSerializer()))
+            using (var sender = new Communicator(new NetPipeChannel(), "Sender" + Guid.NewGuid(), new ObjectSerializer<ITest, OtherTest>(), new SimpleValueSerializer()))
+            {
+                tested.AddRequestHandler<ITest>("Result", ct => new ConcreteTest { Bool = true });
+                var tcs = new TaskCompletionSource<bool>();
+                tested.AddMessageHandler<ITest>("Message", t => tcs.SetResult(t.Bool));
+
+                await tested.Open();
+                await sender.Open();
+
+                await sender.SendMessage(tested.Address, "Message", new OtherTest { Bool = true });
+                Assert.True(await tcs.Task);
+
+                var r = await sender.SendRequest<ITest>(tested.Address, "Result");
+                Assert.True(r.Bool);
+            }
+        }
     }
 
     public interface ITest

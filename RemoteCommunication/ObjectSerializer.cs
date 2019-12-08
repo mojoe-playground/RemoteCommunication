@@ -8,9 +8,17 @@
 
     public class ObjectSerializer<TInformation, TConcrete> : ISerializer where TConcrete : TInformation, new()
     {
-        public ObjectSerializer() : base() { }
+        public ObjectSerializer() : this(null)
+        { }
 
-        public string Id => "obj:" + typeof(TInformation).Name;
+        public ObjectSerializer(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                id = typeof(TInformation).Name;
+            Id = "obj:" + id;
+        }
+
+        public string Id { get; }
 
         private static Dictionary<string, PropertyInfo> Properties { get; } = typeof(TInformation).GetProperties().Where(p => p.CanRead).ToDictionary(p => p.Name);
         private static Dictionary<string, PropertyInfo> TargetProperties { get; } = typeof(TConcrete).GetProperties().Where(p => p.CanWrite).ToDictionary(p => p.Name);
