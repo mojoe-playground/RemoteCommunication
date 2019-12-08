@@ -74,6 +74,16 @@ namespace RemoteCommunication.Tests
         });
 
         [Fact]
+        public async Task PropertyTest() => await SetupCommunicators("test", (ct, cs, s, p) =>
+        {
+            s.Property = 5;
+            Assert.Equal(5, p.Property);
+            p.Property = 6;
+            Assert.Equal(6, s.Property);
+            return Task.CompletedTask;
+        });
+
+        [Fact]
         public async Task CancellationTest() => await SetupCommunicators(async (ct, cs, s, p) =>
         {
             var sw = new Stopwatch();
@@ -114,6 +124,8 @@ namespace RemoteCommunication.Tests
 
     public interface ITestService
     {
+        int Property { get; set; }
+
         void VoidMethod();
         Task TaskMethod();
         int IntMethod(int number);
@@ -123,6 +135,8 @@ namespace RemoteCommunication.Tests
 
     internal class Service : ITestService
     {
+        public int Property { get; set; }
+
         public TaskCompletionSource<bool> CancellationMethodStarted { get; set; } = new TaskCompletionSource<bool>();
         public bool CancellationMethodNotCancelled { get; set; }
         public TaskCompletionSource<bool> TaskIntMethodStarted { get; set; } = new TaskCompletionSource<bool>();
