@@ -5,7 +5,7 @@
     using System.IO;
     using System.Runtime.InteropServices;
 
-    public class SimpleValueSerializer : ISerializer
+    public class BuiltInTypesSerializer : ISerializer
     {
         const byte _boolean = 1;
         const byte _byte = 2;

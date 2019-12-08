@@ -6,7 +6,7 @@ using Xunit;
 
 namespace RemoteCommunication.Tests
 {
-    public class SimpleValueSerializerTest
+    public class BuiltInTypesSerializerTest
     {
         [Fact]
         public void SerializationTest()
@@ -15,7 +15,7 @@ namespace RemoteCommunication.Tests
 
             using (var ms = new MemoryStream())
             {
-                var s = new SimpleValueSerializer();
+                var s = new BuiltInTypesSerializer();
                 Assert.True(s.CanSerialize(value, null));
                 using (var bw = new BinaryWriter(ms, Encoding.UTF8, true))
                     s.Serialize(value, bw, null);
@@ -32,7 +32,7 @@ namespace RemoteCommunication.Tests
         {
             using (var ms = new MemoryStream())
             {
-                var s = new SimpleValueSerializer();
+                var s = new BuiltInTypesSerializer();
                 Assert.True(s.CanSerialize(value, null));
                 using (var bw = new BinaryWriter(ms, Encoding.UTF8, true))
                     s.Serialize(value, bw, null);
@@ -47,7 +47,7 @@ namespace RemoteCommunication.Tests
         {
             using (var ms = new MemoryStream())
             {
-                var s = new SimpleValueSerializer();
+                var s = new BuiltInTypesSerializer();
                 Assert.False(s.CanSerialize(ms, null));
                 using (var bw = new BinaryWriter(ms, Encoding.UTF8, true))
                     Assert.Throws<InvalidOperationException>(() => s.Serialize(ms, bw, null));

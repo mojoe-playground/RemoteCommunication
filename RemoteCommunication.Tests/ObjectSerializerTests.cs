@@ -12,7 +12,7 @@ namespace RemoteCommunication.Tests
         public void CollectionTest()
         {
             var value = new CollectionSourceData { Items = new List<string> { "A", "B", "C" } };
-            var manager = new SerializationManager(new SimpleValueSerializer(), new CollectionSerializer<string>());
+            var manager = new SerializationManager(new BuiltInTypesSerializer(), new CollectionSerializer<string>());
             using (var ms = new MemoryStream())
             {
                 var s = new ObjectSerializer<CollectionSourceData>();
@@ -33,7 +33,7 @@ namespace RemoteCommunication.Tests
         public void CollectionGetterOnlyTest()
         {
             var value = new CollectionSourceData { Items = new List<string> { "A", "B", "C" } };
-            var manager = new SerializationManager(new SimpleValueSerializer(), new CollectionSerializer<string>());
+            var manager = new SerializationManager(new BuiltInTypesSerializer(), new CollectionSerializer<string>());
             using (var ms = new MemoryStream())
             {
                 var s = new ObjectSerializer<ICollectionData, CollectionGetterOnly>();
@@ -54,7 +54,7 @@ namespace RemoteCommunication.Tests
         public void CollectionArrayTest()
         {
             var value = new CollectionSourceData { Items = new List<string> { "A", "B", "C" } };
-            var manager = new SerializationManager(new SimpleValueSerializer(), new CollectionSerializer<string>());
+            var manager = new SerializationManager(new BuiltInTypesSerializer(), new CollectionSerializer<string>());
             using (var ms = new MemoryStream())
             {
                 var s = new ObjectSerializer<ICollectionData, CollectionArrayData>();

@@ -53,8 +53,8 @@ namespace RemoteCommunication.Tests
         [Fact]
         public async Task ObjectInterface()
         {
-            using (var tested = new Communicator(new NetPipeChannel(), "Tested" + Guid.NewGuid(), new ObjectSerializer<ITest, ConcreteTest>(), new SimpleValueSerializer()))
-            using (var sender = new Communicator(new NetPipeChannel(), "Sender" + Guid.NewGuid(), new ObjectSerializer<ITest, OtherTest>(), new SimpleValueSerializer()))
+            using (var tested = new Communicator(new NetPipeChannel(), "Tested" + Guid.NewGuid(), new ObjectSerializer<ITest, ConcreteTest>(), new BuiltInTypesSerializer()))
+            using (var sender = new Communicator(new NetPipeChannel(), "Sender" + Guid.NewGuid(), new ObjectSerializer<ITest, OtherTest>(), new BuiltInTypesSerializer()))
             {
                 tested.AddRequestHandler<ITest>("Result", ct => new ConcreteTest { Bool = true });
                 var tcs = new TaskCompletionSource<bool>();

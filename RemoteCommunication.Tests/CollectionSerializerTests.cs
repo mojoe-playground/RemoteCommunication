@@ -18,7 +18,7 @@ namespace RemoteCommunication.Tests
         [MemberData(nameof(TypeData))]
         public void SerializeTypes(object value)
         {
-            var manager = new SerializationManager(new SimpleValueSerializer());
+            var manager = new SerializationManager(new BuiltInTypesSerializer());
             using (var ms = new MemoryStream())
             {
                 var s = new CollectionSerializer<string>();

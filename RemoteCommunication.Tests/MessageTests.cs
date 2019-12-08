@@ -40,8 +40,8 @@ namespace RemoteCommunication.Tests
         private async Task SetupCommunicators(Func<Communicator, Communicator, Task> test)
         {
             var id = Guid.NewGuid();
-            using (var tested = new Communicator(new NetPipeChannel(), "Tested" + id, new SimpleValueSerializer()))
-            using (var sender = new Communicator(new NetPipeChannel(), "Sender" + id, new SimpleValueSerializer()))
+            using (var tested = new Communicator(new NetPipeChannel(), "Tested" + id, new BuiltInTypesSerializer()))
+            using (var sender = new Communicator(new NetPipeChannel(), "Sender" + id, new BuiltInTypesSerializer()))
             {
                 await tested.Open();
                 await test.Invoke(tested, sender);
