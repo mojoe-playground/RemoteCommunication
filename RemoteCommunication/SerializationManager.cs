@@ -40,6 +40,10 @@
             targetSerializer.Serialize(data, writer, this);
         }
 
-        public bool CanSerialize(object data) => Serializers.FirstOrDefault(s => s.CanSerialize(data, this)) != null;
+        public bool CanSerialize(object data)
+        {
+            var res = Serializers.FirstOrDefault(s => s.CanSerialize(data, this)) != null;
+            return res;
+        }
     }
 }
